@@ -6,6 +6,11 @@ import { GraphQLModule} from "@nestjs/graphql"
 import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { PostModule } from './post/post.module';
+import { UserModule } from './user/user.module';
+import { CommentModule } from './comment/comment.module';
+import { PosttagsModule } from './posttags/posttags.module';
+import { TagModule } from './tag/tag.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -14,7 +19,12 @@ import { PostModule } from './post/post.module';
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
     }),
     PrismaModule,
-    PostModule
+    PostModule,
+    UserModule,
+    CommentModule,
+    PosttagsModule,
+    TagModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
