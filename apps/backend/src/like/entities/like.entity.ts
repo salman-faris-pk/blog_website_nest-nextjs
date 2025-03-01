@@ -7,8 +7,14 @@ export class Like {
   @Field(() => ID)
   id: string;
 
+  @Field(() => ID)
+  userId: string;
+
   @Field(() => User)
   user: User;
+
+  @Field(() => ID)
+  postId: string;
 
   @Field(() => Post)
   post: Post;

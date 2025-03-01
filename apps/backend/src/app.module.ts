@@ -11,6 +11,7 @@ import { CommentModule } from './comment/comment.module';
 import { PosttagsModule } from './posttags/posttags.module';
 import { TagModule } from './tag/tag.module';
 import { LikeModule } from './like/like.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { LikeModule } from './like/like.module';
     PosttagsModule,
     TagModule,
     LikeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

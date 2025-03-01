@@ -35,8 +35,6 @@ export class Post {
    @Field(()=> Boolean)
    published: boolean;
 
-   @Field()
-   authorId: string;
 
    @Field(() => User) 
    author: User; 

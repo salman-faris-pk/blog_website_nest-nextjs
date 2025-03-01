@@ -2,16 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Post {
+type User {
   id: ID!
-  slug: String
-  title: String!
+  name: String!
+  email: String!
+  bio: String
+  avatar: String
+  posts: [Post!]!
+  comments: [CommentEntity!]!
+}
+
+type CommentEntity {
+  id: ID!
   content: String!
-  thumbnail: String
-  published: Boolean!
-  authorId: String!
+  post: Post!
+  author: User!
   createdAt: DateTime!
-  updatedAt: DateTime!
 }
 
 """
@@ -19,6 +25,62 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Like {
+  id: ID!
+  userId: ID!
+  user: User!
+  postId: ID!
+  post: Post!
+  createdAt: DateTime!
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  posts: [PostTag!]!
+}
+
+type PostTag {
+  id: ID!
+  postId: ID!
+  tagId: ID!
+  post: Post!
+  tag: Tag!
+}
+
+type Count {
+  likes: Int!
+  comments: Int!
+}
+
+type Post {
+  id: ID!
+  slug: String
+  title: String!
+  content: String!
+  thumbnail: String
+  published: Boolean!
+  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  comments: [CommentEntity!]!
+  tags: [PostTag!]!
+  likes: [Like!]!
+  _count: Count!
+}
+
 type Query {
-  posts: [Post!]
+  posts: [Post!]!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+}
+
+input CreateUserInput {
+  name: String!
+  password: String!
+  email: String!
+  bio: String
+  avatar: String
 }
