@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException,Res} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignInInput } from './dto/signin.input';
 import { verify } from 'argon2';
 import { User } from '@prisma/client';
 import { JwtService} from "@nestjs/jwt"
 import { AuthJwtpayload } from './types/auth-jwtPayload';
+import {Response} from "express"
 
 @Injectable()
 export class AuthService {
@@ -38,9 +39,16 @@ export class AuthService {
 
     };
 
-    async login(user:User){
+    async login(user:User, @Res() res:Response){
 
         const {accessToken}=await this.generatetoken(user.id);
+        
+        res.cookie('accesstoken',accessToken,{
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 86400000,
+        });
+
         return {
             id: user.id,
             name: user.name,
@@ -48,6 +56,19 @@ export class AuthService {
             accessToken
         }
     };
+
+
+    async validateJwtUser(userId: string) {
+        const user = await this.prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+        });
+    
+        if (!user) throw new UnauthorizedException('User not found!');
+        const currentUser = { id: user.id };
+        return currentUser;
+      }
 
 
 
