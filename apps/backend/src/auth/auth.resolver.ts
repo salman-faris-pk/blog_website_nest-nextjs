@@ -16,6 +16,8 @@ export class AuthResolver {
 
     return await  this.authService.login(user)
 
-  }
+  };
+  
+
 
 }
